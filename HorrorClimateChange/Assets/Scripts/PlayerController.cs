@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(InputController))]
 public class PlayerController : MonoBehaviour
@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         inputController = GetComponent<InputController>();
+        SceneManager.sceneLoaded += PlayerReset;
     }
 
     // Update is called once per frame
@@ -86,5 +87,11 @@ public class PlayerController : MonoBehaviour
     void PlayerDeath()
     {
 
+    }
+
+    void PlayerReset(Scene scene, LoadSceneMode mode)
+    {
+        transform.position = GameObject.Find("PlayerSpawnPlace").transform.position;
+        Debug.Log("Player reset");
     }
 }
