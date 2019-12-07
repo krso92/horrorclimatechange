@@ -91,7 +91,10 @@ public class PlayerController : MonoBehaviour
 
     void PlayerReset(Scene scene, LoadSceneMode mode)
     {
-        transform.position = GameObject.Find("PlayerSpawnPlace").transform.position;
+        Vector3 pos = GameObject.Find("PlayerSpawnPlace").transform.position;
+        transform.position = pos;
+        pos.y = 10f;
+        Camera.main.transform.position = pos;
         Debug.Log("Player reset");
     }
 }
