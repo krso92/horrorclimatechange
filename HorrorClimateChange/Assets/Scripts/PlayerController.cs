@@ -1,0 +1,80 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+[RequireComponent(typeof(InputController))]
+public class PlayerController : MonoBehaviour
+{
+
+    Rigidbody rigidbody;
+    public float speed;
+    InputController inputController;
+
+    public int health;
+    Vector3 lookPos;
+    //InputController m_input;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        rigidbody = GetComponent<Rigidbody>();
+        inputController = GetComponent<InputController>();
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        RotatePlayerAlongMousePosition();
+        MovePlayer();
+    }
+
+    private void MovePlayer()
+    {
+        Vector3 movement = new Vector3(inputController.m_horizontal, 0, inputController.m_vertical);
+        //rigidbody.AddForce(movement.normalized * speed );
+        transform.Translate(movement.normalized * speed * Time.deltaTime,Space.World);
+
+    }
+
+    void FixedUpdate()
+    {
+    }
+
+
+    void LookAt()
+    {
+
+    }
+
+    void RotatePlayerAlongMousePosition()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 100))
+        {
+            lookPos = hit.point;
+        }
+
+        Vector3 lookDir = lookPos - transform.position;
+        lookDir.y = 0;
+
+        transform.LookAt(transform.position + lookDir, Vector3.up);
+    }
+
+    public void DamagePlayer(int dmg)
+    {
+        health = health - dmg;
+        if (health <= 0)
+        {
+            PlayerDeath();
+        }
+    }
+
+    void PlayerDeath()
+    {
+
+    }
+}
