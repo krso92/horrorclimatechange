@@ -13,7 +13,7 @@ public class InputController : MonoBehaviour
     {
         m_horizontal = Input.GetAxis("Horizontal");
         m_vertical = Input.GetAxis("Vertical");
-        m_shoot = Input.GetKey("Fire1");
+        // m_shoot = Input.GetKey("Fire1");
 
     }
 
