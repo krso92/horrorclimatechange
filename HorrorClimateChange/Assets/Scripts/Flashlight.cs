@@ -25,6 +25,9 @@ public class Flashlight : MonoBehaviour
     float x;
     float y;
 
+    string id1;
+    string id2;
+
     public float rayRadius;
     public float rayDistance;
 
@@ -44,8 +47,8 @@ public class Flashlight : MonoBehaviour
     {
         flashLight.DOColor(burnColor, durationBurn);
         flashLight.DOIntensity(burnIntensity, durationBurn);
-        DOTween.To(() => flashLight.range, x => flashLight.range = x, burnRange, durationBurn);
-        DOTween.To(() => flashLight.spotAngle, x => flashLight.spotAngle = x, burnAngle, durationBurn).OnComplete(StartBurning);
+        DOTween.To(() => flashLight.range, x => flashLight.range = x, burnRange, durationBurn).SetId(12);
+        DOTween.To(() => flashLight.spotAngle, x => flashLight.spotAngle = x, burnAngle, durationBurn).OnComplete(StartBurning).SetId(11);
 
         //DOTween.To()
         //flashLight.color = burnColor;
@@ -55,6 +58,8 @@ public class Flashlight : MonoBehaviour
     public void NormalLight()
     {
         doShake = false;
+        DOTween.Kill(11);
+        DOTween.Kill(12);
         flashLight.DOColor(normColor, durationBurn);
         flashLight.DOIntensity(normIntensity, durationBurn);
         DOTween.To(() => flashLight.range, x => flashLight.range = x, normRange, durationBurn);
@@ -65,23 +70,36 @@ public class Flashlight : MonoBehaviour
 
     void StartBurning() 
     {
-        doShake = true;   
+        doShake = true;
+        StartCoroutine(CheckForTarget());
     }
 
-    //IEnumerator CheckForTarget() 
-    //{
+    IEnumerator CheckForTarget() 
+    {
 
-    //}
+            yield return new WaitForSeconds(.1f);
+            RaycastHit hits = ReturnTargets();
 
-    //GameObject[] ReturnTargets()
-    //{
-    //    Ray[] rays;
-    //    RaycastHit[] hits;
-    //    hits = Physics.SphereCastAll(transform.position, rayRadius, transform.forward, rayDistance);
+        if (hits.transform != null)
+        {
+            print("there is " + hits.transform.gameObject.name);
+        }
+    }
 
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.GetChild(0).localPosition, rayRadius);
+    }
 
-
-    //}
+    RaycastHit ReturnTargets()
+    {
+        Ray[] rays;
+        RaycastHit hit;
+        Physics.SphereCast(transform.position, rayRadius, transform.forward, out hit,13);
+        return hit;
+    }
 
 
 
