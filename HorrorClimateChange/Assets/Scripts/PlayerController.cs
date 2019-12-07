@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(InputController))]
 public class PlayerController : MonoBehaviour
@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         inputController = GetComponent<InputController>();
+        SceneManager.sceneLoaded += PlayerReset;
     }
 
     // Update is called once per frame
@@ -34,8 +35,8 @@ public class PlayerController : MonoBehaviour
     private void MovePlayer()
     {
         Vector3 movement = new Vector3(inputController.m_horizontal, 0, inputController.m_vertical);
-        rigidbody.AddForce(movement.normalized * speed );
-        //transform.Translate(movement.normalized * speed * Time.deltaTime,Space.World);
+        //rigidbody.AddForce(movement.normalized * speed );
+        transform.Translate(movement.normalized * speed * Time.deltaTime,Space.World);
 
         if (inputController.m_shootDown)
         {
@@ -86,5 +87,14 @@ public class PlayerController : MonoBehaviour
     void PlayerDeath()
     {
 
+    }
+
+    void PlayerReset(Scene scene, LoadSceneMode mode)
+    {
+        Vector3 pos = GameObject.Find("PlayerSpawnPlace").transform.position;
+        transform.position = pos;
+        pos.y = 10f;
+        Camera.main.transform.position = pos;
+        Debug.Log("Player reset");
     }
 }
