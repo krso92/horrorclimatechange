@@ -146,8 +146,8 @@ MonoBehaviour:
   burnIntensity: 15
   normIntensity: 5
   durationBurn: 0.7
-  rayRadius: 0
-  rayDistance: 0
+  rayRadius: 0.5
+  rayDistance: 8
 --- !u!1 &8174563883622909568
 GameObject:
   m_ObjectHideFlags: 0
