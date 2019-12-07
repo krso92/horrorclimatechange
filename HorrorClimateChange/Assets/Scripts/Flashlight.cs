@@ -17,6 +17,19 @@ public class Flashlight : MonoBehaviour
     public float burnIntensity;
     public float normIntensity;
 
+    public float durationBurn = .7f;
+
+    bool doShake;
+    float shakeSpeed = 90f;
+    float shakeAmount = 0.1f;
+    float x;
+    float y;
+
+    public float rayRadius;
+    public float rayDistance;
+
+    Vector3 startingPos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,14 +37,15 @@ public class Flashlight : MonoBehaviour
         flashLight.intensity = normIntensity;
         flashLight.range = normRange;
         flashLight.spotAngle = normAngle;
+        startingPos = gameObject.transform.position;
     }
 
     public void BurnLight()
     {
-        flashLight.DOColor(burnColor, .7f);
-        flashLight.DOIntensity(burnIntensity, .7f);
-        DOTween.To(() => flashLight.range, x => flashLight.range = x, burnRange, .7f);
-        DOTween.To(() => flashLight.spotAngle, x => flashLight.spotAngle = x, burnAngle, .7f);
+        flashLight.DOColor(burnColor, durationBurn);
+        flashLight.DOIntensity(burnIntensity, durationBurn);
+        DOTween.To(() => flashLight.range, x => flashLight.range = x, burnRange, durationBurn);
+        DOTween.To(() => flashLight.spotAngle, x => flashLight.spotAngle = x, burnAngle, durationBurn).OnComplete(StartBurning);
 
         //DOTween.To()
         //flashLight.color = burnColor;
@@ -40,11 +54,46 @@ public class Flashlight : MonoBehaviour
 
     public void NormalLight()
     {
-        flashLight.DOColor(normColor, .7f);
-        flashLight.DOIntensity(normIntensity, .7f);
-        DOTween.To(() => flashLight.range, x => flashLight.range = x, normRange, .7f);
+        doShake = false;
+        flashLight.DOColor(normColor, durationBurn);
+        flashLight.DOIntensity(normIntensity, durationBurn);
+        DOTween.To(() => flashLight.range, x => flashLight.range = x, normRange, durationBurn);
 
-        DOTween.To(() => flashLight.spotAngle, x => flashLight.spotAngle = x, normAngle, .7f);
+        DOTween.To(() => flashLight.spotAngle, x => flashLight.spotAngle = x, normAngle, durationBurn);
 
+    }
+
+    void StartBurning() 
+    {
+        doShake = true;   
+    }
+
+    //IEnumerator CheckForTarget() 
+    //{
+
+    //}
+
+    //GameObject[] ReturnTargets()
+    //{
+    //    Ray[] rays;
+    //    RaycastHit[] hits;
+    //    hits = Physics.SphereCastAll(transform.position, rayRadius, transform.forward, rayDistance);
+
+
+
+    //}
+
+
+
+    private void Update()
+    {
+        if (doShake)
+        {
+
+            x = startingPos.x + Mathf.Sin(Time.time * shakeSpeed * Random.Range(0f, 1f)) * shakeAmount;
+
+            y = startingPos.y + (Mathf.Sin(Time.time * shakeSpeed * Random.Range(0f,1f)) * shakeAmount);
+            gameObject.transform.localPosition = new Vector3(x, transform.localPosition.y, transform.localPosition.z);
+        }
     }
 }
