@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody rigidbody;
     public float speed;
     InputController inputController;
+    public Flashlight flashlight;
 
     public int health;
     Vector3 lookPos;
@@ -35,6 +36,15 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(inputController.m_horizontal, 0, inputController.m_vertical);
         //rigidbody.AddForce(movement.normalized * speed );
         transform.Translate(movement.normalized * speed * Time.deltaTime,Space.World);
+
+        if (inputController.m_shootDown)
+        {
+            flashlight.BurnLight();
+        }
+        if (inputController.m_shootUp)
+        {
+            flashlight.NormalLight();
+        }
 
     }
 

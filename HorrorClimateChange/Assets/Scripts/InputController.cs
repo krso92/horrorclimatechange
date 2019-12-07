@@ -7,13 +7,15 @@ public class InputController : MonoBehaviour
 
     [HideInInspector] public float m_vertical;
     [HideInInspector] public float m_horizontal;
-    [HideInInspector] public bool m_shoot;
+    [HideInInspector] public bool m_shootDown;
+    [HideInInspector] public bool m_shootUp;
 
     void Update()
     {
         m_horizontal = Input.GetAxis("Horizontal");
         m_vertical = Input.GetAxis("Vertical");
-        // m_shoot = Input.GetKey("Fire1");
+        m_shootDown = Input.GetButtonDown("Fire1");
+        m_shootUp = Input.GetButtonUp("Fire1");
 
     }
 
