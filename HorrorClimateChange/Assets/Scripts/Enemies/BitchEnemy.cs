@@ -60,4 +60,10 @@ public class BitchEnemy : MonoBehaviour, IEnemy
             agent.destination = chosenPoint;
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        audioSource.Play();
+        agent.destination = other.transform.position;
+    }
 }
