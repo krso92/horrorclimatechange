@@ -8,6 +8,26 @@ public class BitchEnemy : MonoBehaviour, IEnemy
     [SerializeField]
     private EnemyState currentState;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private NavMeshAgent agent;
+
+    [SerializeField]
+    private Transform walkPointsPool;    
+
+    private Vector3 chosenPoint;
+
+    private Vector3 GetRandomPoint
+    {
+        get
+        {
+            int i = Random.Range(0, walkPointsPool.childCount);
+            return walkPointsPool.GetChild(i).position;
+        }
+    }
+
     // interface impl
 
     public void Flashlighted()
@@ -22,55 +42,22 @@ public class BitchEnemy : MonoBehaviour, IEnemy
 
     // Logic
 
-    private void ProcessState()
-    {
-        switch(currentState)
-        {
-            case EnemyState.Idle:
-                break;
-            case EnemyState.Roaming:
-                throw new System.NotImplementedException();
-            case EnemyState.Attacking:
-                break;
-            case EnemyState.RunningAway:
-                break;
-        }
-    }
-
-    private void Startle()
-    {
-        currentState = EnemyState.Attacking;
-    }
-
-    private void DoAttack()
-    {
-
-    }
-
-    private void DoRunAway()
-    {
-    }
 
     // Unity msgs
 
     // Start is called before the first frame update
     void Start()
     {
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
-        agent.destination = GameObject.Find("GOTO").transform.position;
+        chosenPoint = GetRandomPoint;;
+        agent.destination = chosenPoint;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        // ako udje player u enemijev trigger
-        // promeni stanje
-        // ako su uslovi za startle ispunjeni
-        Startle();
+        if (Vector3.Distance(transform.position, chosenPoint) < 1)
+        {
+            chosenPoint = GetRandomPoint;
+            agent.destination = chosenPoint;
+        }
     }
 }
