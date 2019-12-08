@@ -232,6 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d21d15a3ca4ff7be3874f6964268d648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distortion: {fileID: 1905460758}
 --- !u!1 &634144275
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,6 +546,7 @@ GameObject:
   - component: {fileID: 1905460757}
   - component: {fileID: 1905460756}
   - component: {fileID: 1905460755}
+  - component: {fileID: 1905460758}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -569,7 +571,7 @@ Camera:
   m_GameObject: {fileID: 1905460754}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -617,6 +619,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1905460758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905460754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9197ab2efe9bd6c458638b2c47e3f4cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SCShader: {fileID: 4800000, guid: f22fd3cfbc041ec4ba7d9724f119fb07, type: 3}
+  PositionX: 0
+  PositionY: 0
+  Size: 0.6
+  Distortion: 30
 --- !u!1 &2054243332
 GameObject:
   m_ObjectHideFlags: 0

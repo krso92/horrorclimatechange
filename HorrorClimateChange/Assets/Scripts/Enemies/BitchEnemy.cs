@@ -19,6 +19,8 @@ public class BitchEnemy : MonoBehaviour, IEnemy
 
     private Vector3 chosenPoint;
 
+    private bool followPlayer;
+
     private Vector3 GetRandomPoint
     {
         get
